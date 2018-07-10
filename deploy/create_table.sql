@@ -4,6 +4,60 @@
 # create database saas;
 
 /*
+创建动力类型表
+*/
+create table if not exists power_type(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '动力类型',
+  PRIMARY KEY ( id )
+);
+
+/*
+创建市场级别
+*/
+create table if not exists market_level(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '市场级别及细分级别',
+  PRIMARY KEY ( id )
+);
+
+/*
+创建档次等级
+*/
+create table if not exists grade_level(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '档次等级',
+  PRIMARY KEY ( id )
+);
+
+/*
+创建车型血缘
+*/
+create table if not exists blood_relationship(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '车系血缘',
+  PRIMARY KEY ( id )
+);
+
+/*
+创建车身类型
+*/
+create table if not exists car_type(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '车身类型',
+  PRIMARY KEY ( id )
+);
+
+/*
+创建车企品牌
+*/
+create table if not exists car_type(
+  id int not null AUTO_INCREMENT,
+  name VARCHAR(20)  comment '车企品牌',
+  PRIMARY KEY ( id )
+);
+
+/*
 第一张表：
 创建一级统计表
 多列索引适合多列同时查询，同时遵循最左前缀原则
