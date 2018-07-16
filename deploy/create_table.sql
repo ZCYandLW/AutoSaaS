@@ -138,6 +138,39 @@ create table if not exists  district(
     foreign key(city_id) references city(id)
 );
 
+/*
+创建B端SaaS系统用户结构表,即经销商用户表
+*/
+create table if not exists dealer_user(
+    id int not null AUTO_INCREMENT  comment '用户id',
+    user_name TEXT comment '用户名称',
+    passwd TEXT comment 'MD5密码',
+    create_time datetime comment '用户创建时间',
+    frist_create_ip VARCHAR(20) comment '用户首次创建ip地址',
+    last_login_time datetime comment '用户最近登陆时间',
+    last_login_ip datetime comment '用户最近登陆ip',
+    region_id int comment '区域id',
+    province_id int comment '省份id',
+    city_id int comment '城市id',
+    token TEXT comment '用户token',
+    api_permissions TEXT comment 'API的权限,为各API权限表的ID',
+    permission_levels int comment '权限等级,0表示无任何级别权限,1表示城市级别,2表示省级,3表示全国级',
+    is_admin TINYINT(1) comment '是否管理员',
+    PRIMARY KEY ( id ),
+    foreign key(region_id) references region(id),
+    foreign key(province_id) references province(id),
+    foreign key(city_id) references city(id)
+);
+
+
+/*
+创建API权限id表
+*/
+create table if not exists url_api(
+    id int not null AUTO_INCREMENT  comment 'api id',
+    api_name TEXT comment 'api名称',
+    PRIMARY KEY ( id )
+};
 
 /*
 创建基于城市的汽车关注人数数量表
@@ -173,9 +206,9 @@ create table if not exists car_interest_loophole(
 
 
 /*
-创建经销商页面用户访问日志表
+创建经销商页面的c端客户访问日志表
 */
-create table if not exists user_logger(
+create table if not exists customer_logger(
     data_time datetime  comment '首次登陆时间',
     user_ip VARCHAR(20) comment '用户ip',
     car_dealer  VARCHAR(20)  comment '汽车经销商',
