@@ -851,10 +851,10 @@ POST请求
 | cars | 是 | 无 |  奥迪R8;奥迪TLS | 选择车型,车名用;分割 |
 | push_freq | 是 | 无 | 2 | 推送次数 |
 | time_interval  | 是 | 无 | 1 | 推送间隔,单位天 |
-| start_push_with_workingday | 是 | 无 |  | 工作日推送开始时间间 |
-| end_push_with_workingday | 是 | 无 |  | 工作日推送结束时间 |
-| start_push_with_holiday | 是 | 无 |  | 节假日推送开始时间|
-| end_push_with_holiday | 是 | 无 |  | 节假日推送结束时间 |
+| start_push_with_workingday | 是 | 无 | 2018-03-28 02:15:42 | 工作日推送开始时间间 |
+| end_push_with_workingday | 是 | 无 | 2018-03-28 02:15:42 | 工作日推送结束时间 |
+| start_push_with_holiday | 是 | 无 | 2018-03-28 02:15:42 | 节假日推送开始时间|
+| end_push_with_holiday | 是 | 无 | 2018-03-28 02:15:42 | 节假日推送结束时间 |
 | push_cover_num | 是 | 无 | 10000 | 覆盖人数 |
 | push_cover_percent | 是 | 无 | 100% | 覆盖率 |
 | region | 是 | 无 | 华南 |  区域 |
