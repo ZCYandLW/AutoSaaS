@@ -11,9 +11,9 @@ class CustomerLogger(models.Model):
     """
     用户访问经销商页面日志表
     """
-    date_time = models.DateTimeField(default=datetime.now, verbose_name='登录时间', null=False, blank=False)
-    user_ip = models.CharField(max_length=20, verbose_name='用户IP', null=False, blank=False)
-    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=False, blank=False, on_delete=models.CASCADE)
+    date_time = models.DateTimeField(default=datetime.now, verbose_name='登录时间')
+    user_ip = models.CharField(max_length=20, verbose_name='用户IP')
+    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=True, blank=True, on_delete=models.SET_NULL)
     is_call_phone = models.BooleanField(default=False, verbose_name='是否拨打电话')
     is_leave_clue = models.BooleanField(default=False, verbose_name='是否留下线索')
 
@@ -28,9 +28,9 @@ class AskingLowPrice(models.Model):
     """
     用户寻价记录表
     """
-    date_time = models.DateTimeField(default=datetime.now, verbose_name='登录时间', null=False, blank=False)
-    user_ip = models.CharField(max_length=20, verbose_name='用户IP', null=False, blank=False)
-    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=False, blank=False, on_delete=models.CASCADE)
+    date_time = models.DateTimeField(default=datetime.now, verbose_name='登录时间')
+    user_ip = models.CharField(max_length=20, verbose_name='用户IP')
+    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=True, blank=True, on_delete=models.SET_NULL)
     user_name = models.CharField(max_length=11, verbose_name='用户姓名')
     user_phone = models.CharField(max_length=11, verbose_name='用户电话号码')
 
@@ -47,7 +47,7 @@ class TestDrive(models.Model):
     """
     date_time = models.DateTimeField(default=datetime.now, verbose_name='登录时间', null=False, blank=False)
     user_ip = models.CharField(max_length=20, verbose_name='用户IP', null=False, blank=False)
-    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=False, blank=False, on_delete=models.CASCADE)
+    car_dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=True, blank=True, on_delete=models.SET_NULL)
     user_name = models.CharField(max_length=11, verbose_name='用户姓名')
     user_phone = models.CharField(max_length=11, verbose_name='用户电话号码')
 

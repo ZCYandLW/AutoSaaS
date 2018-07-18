@@ -96,13 +96,16 @@ class Car(models.Model):
     汽车属性表
     """
     name = models.CharField(max_length=20, verbose_name='汽车名称')
-    power_type = models.ForeignKey(PowerType, verbose_name='动力类型', on_delete=models.CASCADE)
-    market_level = models.ForeignKey(MarketLevel, verbose_name='市场级别及细分级别', on_delete=models.CASCADE)
-    grade_level = models.ForeignKey(GradeLevel, verbose_name='档次等级', on_delete=models.CASCADE)
-    blood_relationship = models.ForeignKey(BloodRelationship, verbose_name='车系血缘', on_delete=models.CASCADE)
-    car_type = models.ForeignKey(CarType, verbose_name='车身类型', on_delete=models.CASCADE)
-    car_brand = models.ForeignKey(CarBrand, verbose_name='车企品牌', on_delete=models.CASCADE)
-    manufacturer_name = models.ForeignKey(ManufacturerName, verbose_name='厂家名称', on_delete=models.CASCADE)
+    power_type = models.ForeignKey(PowerType, verbose_name='动力类型', on_delete=models.SET_NULL, null=True, blank=True)
+    market_level = models.ForeignKey(MarketLevel, verbose_name='市场级别及细分级别', on_delete=models.SET_NULL, null=True,
+                                     blank=True)
+    grade_level = models.ForeignKey(GradeLevel, verbose_name='档次等级', on_delete=models.SET_NULL, null=True, blank=True)
+    blood_relationship = models.ForeignKey(BloodRelationship, verbose_name='车系血缘', on_delete=models.SET_NULL, null=True,
+                                           blank=True)
+    car_type = models.ForeignKey(CarType, verbose_name='车身类型', on_delete=models.SET_NULL, null=True, blank=True)
+    car_brand = models.ForeignKey(CarBrand, verbose_name='车企品牌', on_delete=models.SET_NULL, null=True, blank=True)
+    manufacturer_name = models.ForeignKey(ManufacturerName, verbose_name='厂家名称', on_delete=models.SET_NULL, null=True,
+                                          blank=True)
 
     class Meta:
         verbose_name = '汽车'
@@ -127,7 +130,7 @@ class Province(models.Model):
     省份表
     """
     name = models.CharField(max_length=20, verbose_name='省份名称')
-    region = models.ForeignKey(Region, verbose_name='区域', on_delete=models.CASCADE, null=True, blank=True)
+    region = models.ForeignKey(Region, verbose_name='区域', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = '省份'
@@ -140,7 +143,7 @@ class City(models.Model):
     城市表
     """
     name = models.CharField(max_length=20, verbose_name='城市名称')
-    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = '城市'
@@ -153,7 +156,7 @@ class District(models.Model):
     行政区表
     """
     name = models.CharField(max_length=20, verbose_name='行政区名称')
-    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = '行政区'
@@ -166,10 +169,10 @@ class CarDealer(models.Model):
     汽车经销商信息
     """
     name = models.CharField(max_length=50, verbose_name='汽车厂商名称')
-    address = models.TextField(verbose_name='经销商地址')
-    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.CASCADE)
-    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE)
-    phone_num = models.CharField(max_length=20, verbose_name='汽车经销商页面号码')
+    address = models.TextField(verbose_name='经销商地址', null=True, blank=True)
+    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.SET_NULL, null=True, blank=True)
+    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.SET_NULL, null=True, blank=True)
+    phone_num = models.CharField(default=0, max_length=20, verbose_name='汽车经销商页面号码')
     visitor_num = models.IntegerField(default=0, verbose_name='经销商总页面浏览人数')
     call_phone_num = models.IntegerField(default=0, verbose_name='经销商总拨打电话人数')
     buy_num = models.IntegerField(default=0, verbose_name='经销商总提供线索买车人数')
@@ -186,8 +189,8 @@ class DealerUser(AbstractUser):
     """
     frist_create_ip = models.CharField(max_length=20, verbose_name='用户首次创建ip地址')
     last_login_ip = models.CharField(max_length=20, verbose_name='用户最近登陆ip')
-    api_permissions = models.TextField(verbose_name='API的权限,为各API权限表的ID')
-    permission_levels = models.IntegerField(default=0, choices=((1, '城市级别'), (2, '省级'), (3, '全国级')),
+    api_permissions = models.TextField(verbose_name='API的权限,为各API权限表的ID', null=True, blank=True)
+    permission_levels = models.IntegerField(default=1, choices=((1, '城市级别'), (2, '省级'), (3, '全国级')),
                                             verbose_name='权限等级')
     dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', on_delete=models.CASCADE)
 
@@ -224,8 +227,8 @@ class CityPeopleNum(models.Model):
     基于城市的关注汽车人数数量表
     """
     date = models.DateField(verbose_name='日期', null=False, blank=False)
-    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.CASCADE, null=False, blank=False)
-    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE, null=False, blank=False)
+    province = models.ForeignKey(Province, verbose_name='省份', on_delete=models.SET_NULL, null=True, blank=True)
+    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE)
     watch_num = models.IntegerField(default=0, verbose_name='关注人数')
     intent_num = models.IntegerField(default=0, verbose_name='兴趣人数')
     like_num = models.IntegerField(default=0, verbose_name='意向人数')
@@ -243,8 +246,8 @@ class CarInterestLoophole(models.Model):
     关注汽车的人数数量表
     """
     date = models.DateField(verbose_name='日期', null=False, blank=False)
-    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE, null=False, blank=False)
-    car = models.ForeignKey(Car, verbose_name='汽车', on_delete=models.CASCADE, null=False, blank=False)
+    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, verbose_name='汽车', on_delete=models.CASCADE)
     watch_num = models.IntegerField(default=0, verbose_name='关注人数')
     intent_num = models.IntegerField(default=0, verbose_name='兴趣人数')
     like_num = models.IntegerField(default=0, verbose_name='意向人数')
@@ -258,9 +261,9 @@ class CarInterestLoophole(models.Model):
 
 
 class CarSalesSummary(models.Model):
-    date = models.DateField(default=datetime.now, verbose_name='时间', null=False, blank=False)
-    dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', null=False, blank=False, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, verbose_name='汽车', null=False, blank=False, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.now, verbose_name='时间')
+    dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, verbose_name='汽车', on_delete=models.CASCADE)
     visitor_num = models.IntegerField(default=0, verbose_name='经销商总页面浏览人数')
     call_phone_num = models.IntegerField(default=0, verbose_name='经销商总拨打电话人数')
     buy_num = models.IntegerField(default=0, verbose_name='经销商总提供线索买车人数')
@@ -279,23 +282,24 @@ class ActivityPlan(models.Model):
     dealer = models.ForeignKey(CarDealer, verbose_name='汽车经销商', on_delete=models.CASCADE)
     create_plan_time = models.DateTimeField(default=datetime.now, verbose_name='计划创建时间')
     activity_name = models.CharField(max_length=50, verbose_name='活动名称')
-    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.CASCADE)
-    district = models.ForeignKey(District, verbose_name='行政区', on_delete=models.CASCADE)
-    plan_status = models.IntegerField(choices=((0, '未发送'), (1, '已开始'), (2, '结束')), verbose_name='计划状态')
-    push_mode = models.IntegerField(choices=((0, '短信'), (1, '精准营销'), (2, '云呼')), verbose_name='推送模式')
+    city = models.ForeignKey(City, verbose_name='城市', on_delete=models.SET_NULL, null=True, blank=True)
+    district = models.ForeignKey(District, verbose_name='行政区', on_delete=models.SET_NULL, null=True, blank=True)
+    plan_status = models.SmallIntegerField(choices=((0, '未发送'), (1, '已开始'), (2, '结束')), verbose_name='计划状态')
+    push_mode = models.SmallIntegerField(choices=((0, '短信'), (1, '精准营销'), (2, '云呼')), verbose_name='推送模式')
     watch_start_time = models.DateField(verbose_name='看车周期开始时间')
     watch_end_time = models.DateField(verbose_name='看车周期结束时间')
-    intention_attributes = models.IntegerField(choices=((0, '关注'), (1, '兴趣'), (2, '意向'), (3, '到店')),
-                                               verbose_name='意向属性')
-    sexs = models.IntegerField(choices=((0, '男女都不选'), (1, '只选女'), (2, '只选男'), (3, '男女都选')), verbose_name='性别属性')
-    ages = models.IntegerField(verbose_name='年龄属性(多选)，采用二进制表示，第一位表示小于25岁，第二位表示25~32岁，第三位表示32~40岁，第四位表示40~50岁，第五位表示大于50')
+    intention_attributes = models.SmallIntegerField(choices=((0, '关注'), (1, '兴趣'), (2, '意向'), (3, '到店')),
+                                                    verbose_name='意向属性')
+    sexs = models.SmallIntegerField(choices=((0, '男女都不选'), (1, '只选女'), (2, '只选男'), (3, '男女都选')), verbose_name='性别属性')
+    ages = models.SmallIntegerField(
+        verbose_name='年龄属性(多选)，采用二进制表示，第一位表示小于25岁，第二位表示25~32岁，第三位表示32~40岁，第四位表示40~50岁，第五位表示大于50')
     car = models.ForeignKey(Car, verbose_name='汽车', on_delete=models.CASCADE)
     push_freq = models.IntegerField(verbose_name='推送频次')
     time_interval = models.IntegerField(verbose_name='时间间隔(天)')
-    start_push_with_workingday = models.DateTimeField(verbose_name='工作日推送开始时间')
-    end_push_with_workingday = models.DateTimeField(verbose_name='工作日推送结束时间')
-    start_push_with_holiday = models.DateTimeField(verbose_name='节假日推送开始时间')
-    end_push_with_holiday = models.DateTimeField(verbose_name='节假日推送结束时间')
+    start_push_with_workingday = models.DateTimeField(verbose_name='工作日推送开始时间', null=True, blank=True)
+    end_push_with_workingday = models.DateTimeField(verbose_name='工作日推送结束时间', null=True, blank=True)
+    start_push_with_holiday = models.DateTimeField(verbose_name='节假日推送开始时间', null=True, blank=True)
+    end_push_with_holiday = models.DateTimeField(verbose_name='节假日推送结束时间', null=True, blank=True)
     push_cover_num = models.IntegerField(verbose_name='发送覆盖人数')
     push_cover_percent = models.FloatField(verbose_name='覆盖百分比')
 
